@@ -73,14 +73,14 @@ namespace FhirLoader
                     {
                         if (retryCount > 3)
                         {
-                            Console.WriteLine($"Request failed with {result.Result.StatusCode}. Waiting {timeSpan} before next retry. Retry attempt {retryCount}");
+                            Console.WriteLine($"Request {result.Result.RequestMessage} failed with {result.Result.StatusCode}. Response: {result.Result.Content.ToString()}\n Waiting {timeSpan} before next retry. Retry attempt {retryCount}");
                         }
                     })
                     .ExecuteAsync(() =>
                     {
                         var message = forcePost || string.IsNullOrEmpty(id)
-                            ? new HttpRequestMessage(HttpMethod.Post, new Uri(fhirServerUrl, $"/{resource_type}"))
-                            : new HttpRequestMessage(HttpMethod.Put, new Uri(fhirServerUrl, $"/{resource_type}/{id}"));
+                            ? new HttpRequestMessage(HttpMethod.Post, new Uri(fhirServerUrl, $"{fhirServerUrl.AbsolutePath}/{resource_type}"))
+                            : new HttpRequestMessage(HttpMethod.Put, new Uri(fhirServerUrl, $"{fhirServerUrl.AbsolutePath}/{resource_type}/{id}"));
 
                         message.Content = content;
 
