@@ -78,9 +78,11 @@ namespace FhirLoader
                     })
                     .ExecuteAsync(() =>
                     {
+                        var endpoint = fhirServerUrl.AbsolutePath == "/" ? "" : fhirServerUrl.AbsolutePath;
+                        // Console.WriteLine($"{endpoint}");
                         var message = forcePost || string.IsNullOrEmpty(id)
-                            ? new HttpRequestMessage(HttpMethod.Post, new Uri(fhirServerUrl, $"{fhirServerUrl.AbsolutePath}/{resource_type}"))
-                            : new HttpRequestMessage(HttpMethod.Put, new Uri(fhirServerUrl, $"{fhirServerUrl.AbsolutePath}/{resource_type}/{id}"));
+                            ? new HttpRequestMessage(HttpMethod.Post, new Uri(fhirServerUrl, $"{endpoint}/{resource_type}"))
+                            : new HttpRequestMessage(HttpMethod.Put, new Uri(fhirServerUrl, $"{endpoint}/{resource_type}/{id}"));
 
                         message.Content = content;
 
